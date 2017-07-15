@@ -1,6 +1,8 @@
-hash: 8948e473537a0da9582fbec00b8f1ed1f20e71e11775f107553a52394387eb8b
-updated: 2017-07-15T15:25:59.682928273+08:00
+hash: 82faaa9bc91b51caa5460fabf336d020ccdb65b0883c9f0beba8b23168e0edb7
+updated: 2017-07-15T16:03:25.10124887+08:00
 imports:
 - name: github.com/moby/moby
   version: 90d35abf7b3535c1c319c872900fbd76374e521c
+- name: go.uber.org/zap
+  version: dadca013650a921313c28fa51e4e89e84e3e252d
 testImports: []
