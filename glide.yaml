@@ -1,0 +1,4 @@
+package: go-docker-pratice
+import:
+- package: github.com/moby/moby
+  version: ^17.5.0-ce-rc3

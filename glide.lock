@@ -1,0 +1,6 @@
+hash: 8948e473537a0da9582fbec00b8f1ed1f20e71e11775f107553a52394387eb8b
+updated: 2017-07-15T15:25:59.682928273+08:00
+imports:
+- name: github.com/moby/moby
+  version: 90d35abf7b3535c1c319c872900fbd76374e521c
+testImports: []
