@@ -24,27 +24,25 @@
 
 /*
  * Revision History:
- *     Initial: 2017/07/16        Yang Chenglong
+ *     Initial: 2017/07/16        Li Zebang
  */
 
 package docker
 
 import (
-	"testing"
+	"context"
+
+	"github.com/docker/docker/api/types"
+	"go.uber.org/zap"
+
+	"go-docker-pratice/libs/log"
 )
 
-var (
-	cli		*DockerClient
-)
-
-func TestNewDockerClient(t *testing.T) {
-	var (
-		err			error
-	)
-
-	cli, err = NewDockerClient()
-
+func (cli *DockerClient) DockerImageList() []types.ImageSummary {
+	images, err := cli.C.ImageList(context.Background(), types.ImageListOptions{All: true})
 	if err != nil {
-		t.Error("Create docker client failed:", err)
+		log.Logger.Error("List image(s) with error", zap.Error(err))
 	}
+
+	return images
 }

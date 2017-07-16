@@ -25,6 +25,7 @@
 /*
  * Revision History:
  *     Initial: 2017/07/15        Yang Chenglong
+ *     Modify : 2017/07/16        Li Zebang
  */
 
 package docker
@@ -48,4 +49,8 @@ func NewDockerClient() (*DockerClient, error) {
 	}
 
 	return &DockerClient{C: c}, nil
+}
+
+func (cli *DockerClient) DockerClientVersion() string {
+	return cli.C.ClientVersion()
 }
