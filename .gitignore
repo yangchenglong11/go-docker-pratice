@@ -1,8 +1,7 @@
-.idea/dbnavigator.xml
-.idea/go-docker-pratice.iml
-.idea/markdown-navigator/
-.idea/misc.xml
-.idea/modules.xml
-.idea/workspace.xml
+
+*.log
+.idea
+*.rdb
+*.pprof
+*.memprof
 .idea/vcs.xml
-.idea/markdown-navigator.xml
