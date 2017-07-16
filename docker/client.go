@@ -30,7 +30,7 @@
 package docker
 
 import (
-	"github.com/moby/moby/client"
+	"github.com/docker/docker/client"
 	"go.uber.org/zap"
 	"go-docker-pratice/libs/log"
 )

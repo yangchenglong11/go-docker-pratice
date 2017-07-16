@@ -1,5 +1,4 @@
 package: go-docker-pratice
 import:
-- package: github.com/moby/moby
+- package: github.com/docker/docker
   version: ^17.5.0-ce-rc3
-- package: go.uber.org/zap
