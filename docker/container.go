@@ -32,7 +32,6 @@ package docker
 import (
 	"context"
 	"io"
-	"os"
 	"time"
 
 	"github.com/docker/docker/api/types"
@@ -40,17 +39,14 @@ import (
 	"go.uber.org/zap"
 )
 
-func (cli *DockerClient) DockerContainerLogs(containerID string) {
+func (cli *DockerClient) DockerContainerLogs(containerID string) (io.ReadCloser) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	reader, err := cli.C.ContainerLogs(ctx, containerID, types.ContainerLogsOptions{ShowStdout: true})
+	readerLogs, err := cli.C.ContainerLogs(ctx, containerID, types.ContainerLogsOptions{ShowStdout: true})
 	if err != nil {
 		log.Logger.Error("Run ContainerLogs with error", zap.Error(err))
 	}
 
-	_, err = io.Copy(os.Stdout, reader)
-	if err != nil && err != io.EOF {
-		log.Logger.Error("Output logs by running io.Copy with error", zap.Error(err))
-	}
+	return readerLogs
 }
