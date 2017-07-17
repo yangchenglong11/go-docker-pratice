@@ -60,6 +60,17 @@ func (cli *DockerClient) ContainerStop(containerID string) error {
 	return err
 }
 
+func (cli *DockerClient) ContainerRemove(containerID string) error {
+	cli.ContainerStop(containerID)
+
+	err := cli.C.ContainerRemove(context.Background(), containerID, types.ContainerRemoveOptions{})
+	if err != nil {
+		log.Logger.Error("Remove a container with error", zap.Error(err))
+	}
+
+	return err
+}
+
 func (cli *DockerClient) ContainerLogs(containerID string) io.ReadCloser {
 	readerLogs, err := cli.C.ContainerLogs(context.Background(), containerID, types.ContainerLogsOptions{ShowStdout: true, ShowStderr: true, Timestamps: true, Details: true})
 	if err != nil {
@@ -82,43 +93,43 @@ func (cli *DockerClient) Containers() *Containers {
 	containers := new(Containers)
 	for _, container := range cli.ContainerList() {
 		container, _ := cli.FindByID(container.ID)
-		containers.containers = append(containers.containers, container)
+		containers.Containers = append(containers.Containers, container)
 	}
 
 	return containers
 }
 
-func (cli *DockerClient) FindByID(ID string) (*types.ContainerJSON, error) {
+func (cli *DockerClient) FindByID(ID string) (*Container, error) {
 	container, err := cli.C.ContainerInspect(context.Background(), ID)
 	if err != nil {
 		log.Logger.Error("Get container logs with error" + ID, zap.Error(err))
 	}
 
-	return &container, err
+	return &Container{Container: &container}, err
 }
 
-type ContainerInfo struct {
-	*types.ContainerJSON
+type Container struct {
+	Container *types.ContainerJSON
 }
 
-func (c *ContainerInfo) GetStatus() string {
-	return c.ContainerJSON.State.Status
+func (c *Container) GetStatus() string {
+	return c.Container.State.Status
 }
 
-func (c *ContainerInfo) GetImage() string {
-	return c.ContainerJSON.Image
+func (c *Container) GetImage() string {
+	return c.Container.Image
 }
 
-func (c *ContainerInfo) GetPorts() nat.PortMap {
-	return c.ContainerJSON.NetworkSettings.Ports
+func (c *Container) GetPorts() nat.PortMap {
+	return c.Container.NetworkSettings.Ports
 }
 
-func (c *ContainerInfo) GetVolumes() map[string]struct{} {
-	return c.ContainerJSON.Config.Volumes
+func (c *Container) GetVolumes() map[string]struct{} {
+	return c.Container.Config.Volumes
 }
 
-func (c *ContainerInfo) GetRunningTime() time.Duration {
-	start, err := time.Parse("2006-01-02T15:04:05.999999999Z", c.State.StartedAt)
+func (c *Container) GetRunningTime() time.Duration {
+	start, err := time.Parse("2006-01-02T15:04:05.999999999Z", c.Container.State.StartedAt)
 	if err != nil {
 		log.Logger.Error("Parse time in GetContainerRunningTime function with error", zap.Error(err))
 	}
@@ -126,10 +137,10 @@ func (c *ContainerInfo) GetRunningTime() time.Duration {
 	return time.Now().UTC().Sub(start)
 }
 
-func (c *ContainerInfo) GetNetworkSettings() *types.NetworkSettingsBase {
-	return &c.NetworkSettings.NetworkSettingsBase
+func (c *Container) GetNetworkSettings() *types.NetworkSettingsBase {
+	return &c.Container.NetworkSettings.NetworkSettingsBase
 }
 
 type Containers struct {
-	containers []*types.ContainerJSON
+	Containers []*Container
 }
