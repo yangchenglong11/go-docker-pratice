@@ -31,6 +31,8 @@ package docker
 
 import (
 	"context"
+	"io"
+	"os"
 
 	"github.com/docker/docker/api/types"
 	"go.uber.org/zap"
@@ -45,4 +47,17 @@ func (cli *DockerClient) ImageList() *[]types.ImageSummary {
 	}
 
 	return &images
+}
+
+func (cli *DockerClient) ImagePull(image, tag string) error {
+	out, err := cli.C.ImagePull(context.Background(), image + ":" + tag, types.ImagePullOptions{})
+	if err != nil {
+		log.Logger.Error("Pull image with error", zap.Error(err))
+	}
+
+	defer out.Close()
+
+	io.Copy(os.Stdout, out)
+
+	return err
 }
