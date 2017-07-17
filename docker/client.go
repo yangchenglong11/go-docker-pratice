@@ -51,6 +51,6 @@ func NewDockerClient() (*DockerClient, error) {
 	return &DockerClient{C: c}, nil
 }
 
-func (cli *DockerClient) DockerClientVersion() string {
+func (cli *DockerClient) ClientVersion() string {
 	return cli.C.ClientVersion()
 }
