@@ -38,11 +38,11 @@ import (
 	"go-docker-pratice/libs/log"
 )
 
-func (cli *DockerClient) ImageList() []types.ImageSummary {
+func (cli *DockerClient) ImageList() *[]types.ImageSummary {
 	images, err := cli.C.ImageList(context.Background(), types.ImageListOptions{All: true})
 	if err != nil {
 		log.Logger.Error("List image(s) with error", zap.Error(err))
 	}
 
-	return images
+	return &images
 }
