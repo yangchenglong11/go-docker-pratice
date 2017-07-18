@@ -67,7 +67,7 @@ func (cli *DockerClient) ContainerKill(containerID string) error {
 func (cli *DockerClient) ContainerRemove(containerID string) error {
 	cli.ContainerStop(containerID)
 
-	err := cli.C.ContainerRemove(context.Background(), containerID, types.ContainerRemoveOptions{})
+	err := cli.C.ContainerRemove(context.Background(), containerID, types.ContainerRemoveOptions{RemoveVolumes: false})
 	if err != nil {
 		log.Logger.Error("Remove a container with error", zap.Error(err))
 	}
