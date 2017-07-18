@@ -60,6 +60,10 @@ func (cli *DockerClient) ContainerStop(containerID string) error {
 	return err
 }
 
+func (cli *DockerClient) ContainerKill(containerID string) error {
+	return cli.C.ContainerKill(context.Background(), containerID, "KILL")
+}
+
 func (cli *DockerClient) ContainerRemove(containerID string) error {
 	cli.ContainerStop(containerID)
 
