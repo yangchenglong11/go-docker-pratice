@@ -31,13 +31,18 @@
 package docker
 
 import (
+	"go-docker-pratice/libs/log"
+
 	"github.com/docker/docker/client"
 	"go.uber.org/zap"
-	"go-docker-pratice/libs/log"
 )
 
 type DockerClient struct {
-	C			*client.Client
+	C *client.Client
+}
+
+func Test() {
+
 }
 
 func NewDockerClient() (*DockerClient, error) {
