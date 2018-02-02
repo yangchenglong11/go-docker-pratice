@@ -38,7 +38,7 @@ import (
 	"github.com/docker/go-connections/nat"
 	"go.uber.org/zap"
 
-	"go-docker-pratice/libs/log"
+	"github.com/yangchenglong11/go-docker-pratice/libs/log"
 )
 
 func (cli *DockerClient) ContainerStart(containerID string) error {
@@ -125,7 +125,7 @@ func (c *Container) GetImage() string {
 }
 
 func (c *Container) GetPorts() nat.PortMap {
-	return c.Container.NetworkSettings.Ports
+	return c.Container.Config.ExposedPorts
 }
 
 func (c *Container) GetVolumes() map[string]struct{} {
